@@ -1,0 +1,72 @@
+<h1>Listar Boletos </h1>
+
+<form method="post">
+Mostrar: <select size="1" name="filtrarPor">
+    <option value="TODOS" selected>Todos os boletos</option>
+    <option value="VENCIDOSAVENCER">Boletos aguardando pagamento e vencidos</option>
+    <option value="EXPIRADOS">Boletos expirados (não podem ser pagos)</option>
+    <option value="PAGOS">Boletos pagos</option>
+    <option value="TODOSBAIXADOS">Boletos baixados</option>
+</select><br>
+Ver boletos <input type="text" name="dataInicial" value="2020-01-01"> de até <input type="text" name="dataFinal" value="2020-12-31"> <small>AAAA-MM-DD</small><br>
+Ordenar boletos por: <select size="1" name="ordenarPor">
+    <option value="NOSSONUMERO" selected>Nosso número (do Banco Inter)</option>
+    <option value="SEUNUMERO">Seu número</option>
+    <option value="DATAVENCIMENTO">Data de vencimento (antigos primeiro)</option>
+    <option value="DATAVENCIMENTO_DSC">Data de vencimento (recentes primeiro)</option>
+    <option value="NOMESACADO">Nome do cliente</option>
+    <option value="VALOR">Valor do boleto (menores primeiro)</option>
+    <option value="VALOR_DSC">Valor dos boletos (maiores primeiro)</option>
+    <option value="STATUS">Todos os boletos</option>
+    <option value="STATUS_DSC">Todos os boletos</option>
+</select><br>
+Número de boletos por página: <input type="text" name="size" value="50"><br>
+Número da conta: <input type="text" name="numConta" value="NÚMERO DA CONTA">
+<input class="button" type="submit" name="consultarBoletos" value="Consultar">
+</form>
+
+<?php
+if ( isset( $_POST['consultarBoletos'] ) ) {
+    $dataInicial = $_POST['dataInicial'];
+    $dataFinal = $_POST['dataFinal'];
+    $ordenarPor = $_POST['ordenarPor'];
+    $filtrarPor = $_POST['filtrarPor'];
+    $size = $_POST['size'];
+    $numConta = $_POST['numConta'];
+    $page = '0'; // Número da página
+    $urlFinal = "https://apis.bancointer.com.br/openbanking/v1/certificado/boletos?dataInicial=" . $dataInicial . "&dataFinal=" . $dataFinal . "&ordenarPor=" . $ordenarPor. "&filtrarPor=" . $filtrarPor. "&page=" . $page. "&size=" . $size;
+    $parametros = array(
+        'accept: application/json',
+        'Content-type: application/json',
+        'x-inter-conta-corrente: ' . $numConta
+    );
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+    curl_setopt($ch, CURLOPT_URL, $urlFinal);
+    curl_setopt($ch, CURLOPT_PORT, $porta);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_SSLCERT, 'publicchave.pem');
+    curl_setopt($ch, CURLOPT_SSLKEY, 'private-chave.pem');
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $parametros);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    
+    $result = curl_exec($ch);
+    if (curl_errno($ch)) {
+        echo 'Error:' . curl_error($ch);
+    }
+    curl_close($ch);
+    
+    $json = json_decode($result, true);
+    $contentItem = $json['content'];
+    echo '<br><hr><br>Número Total de Boletos: ' . $json['totalElements'] . '<br>';
+    foreach ($contentItem as $key => $value) {
+        echo
+        '<hr><br><b>Nome do Cliente </b>' . $value['nomeSacado'] . '<br><b>CPF/CNPJ </b>' . $value['cnpjCpfSacado'] . '<br><b>Telefone </b>' . $value['telefone'] . '<br><b>Email </b>' . $value['email'] . '<br>' . 
+        '<br><b>Valor </b>' . $value['valorNominal'] . '<br><b>Data de Vencimento </b>' . $value['dataVencimento'] . '<br><b>Código de Barras </b>' . $value['linhaDigitavel'] . '<br><b>Status do Pagamento </b>' . $value['situacao'] . '<br>' . '<b>Data do Pagamento </b>' . $value['dataPagtoBaixa'] . '<br>' . 
+        '<br>Data de emissão: ' . $value['dataEmissao'] . '<br>Nosso Número: ' . $value['nossoNumero'] . '<br>Seu número: ' . $value['seuNumero'] . '<br>Data limite de pagamento: ' . $value['dataLimite'] . '<br>Valor do Juros: ' . $value['valorJuros'] . '<br>Valor da Multa: ' . $value['valorMulta'] . '<br>'
+    ;}
+}
+?>
