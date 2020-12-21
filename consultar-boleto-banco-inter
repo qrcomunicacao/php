@@ -1,0 +1,48 @@
+<h1>Consultar Boleto por Nosso Número - Banco Inter</h1>
+<!-- Documentação: https://developers.bancointer.com.br/reference#get_boletos-nossonumero -->
+
+<?php
+
+$nossoNumero = 'NOSSO NÚMERO';
+$numConta = 'NÚMERO DA CONTA';
+$urlFinal = "https://apis.bancointer.com.br/openbanking/v1/certificado/boletos/" . $nossoNumero;
+             
+$parametros = array(
+'accept: application/json',
+'Content-type: application/json',
+'x-inter-conta-corrente: ' . $numConta
+);
+
+$ch = curl_init();
+
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+curl_setopt($ch, CURLOPT_URL, $urlFinal);
+curl_setopt($ch, CURLOPT_HEADER, 0);
+curl_setopt($ch, CURLOPT_SSLCERT, 'publicchave.pem');
+curl_setopt($ch, CURLOPT_SSLKEY, 'private-chave.pem');
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+curl_setopt($ch, CURLOPT_HTTPHEADER, $parametros);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+$result = curl_exec($ch);
+if (curl_errno($ch)) {
+echo 'Error:' . curl_error($ch);
+}
+curl_close($ch);
+
+$json = json_decode($result, true);
+echo "<b>Nome do Cliente </b>" . $json['nomePagador'];
+echo "<br><b>CPF/CNPJ </b>" . $json['cnpjCpfPagador'];
+echo "<br><b>Telefone </b>" . $json['dddPagador'] . $json['telefonePagador'];
+echo "<br><b>Email </b>" . $json['emailPagador'] . "<br>";
+echo "<br><b>Valor </b>" . $json['valorNominal'];
+echo "<br><b>Data de Vencimento </b>" . $json['dataVencimento'];
+echo "<br><b>Código de Barras </b>" . $json['codigoBarras'];
+echo "<br><b>Status do Pagamento </b>" . $json['situacaoPagamento'] . "<br>";
+echo "<br>Data de emissão: " . $json['dataEmissao'];
+echo "<br>Nosso Número: " . $nossoNumero;
+echo "<br>Seu número: " . $json['seuNumero'];
+echo "<br>Data limite de pagamento: " . $json['dataLimitePagamento'];
+
+?>
