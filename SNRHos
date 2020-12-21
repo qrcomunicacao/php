@@ -1,108 +1,160 @@
-<!--
-DOCUMENTAÇÃO EMBRATUR
-https://drive.google.com/open?id=1Tt5PD4MXGUQvnTX8fNrgIzyP8NdFiFBu&authuser=atendimento%40qrcomunicacao.com.br&usp=drive_fs
+<h1>Cadastro hóspede Embratur</h1>
 
-URL - WSDL
-http://fnrhws.hospedagem.turismo.gov.br/FnrhWs/FnrhWs?wsdl
--->
-
+<form method="post">
+CPF: <input type="text" name="snnumcpf" placeholder="000.000.000-00" value=""><br>
+Tipo de documento: <input type="text" name="sntipdoc" placeholder="" value=""><br>
+Número do documento: <input type="text" name="snnumdoc" placeholder="" value=""><br>
+Órgão expedidor: <input type="text" name="snorgexp" placeholder="" value=""><br>
+Nome completo: <input type="text" name="snnomecompleto" placeholder="" value=""><br>
+E-mail: <input type="text" name="snemail" placeholder="" value=""><br>
+Profissão: <input type="text" name="snocupacao" placeholder="" value=""><br>
+Nacionalidade: <select size="1" name="snnacionalidade">
+    <option value="ARGENTINA">Argentina</option>
+    <option value="BRASIL" selected>Brasil</option>
+    <option value="BOLIVIA">Bolívia</option>
+    <option value="CHILE">Chile</option>
+    <option value="COLOMBIA">Colômbia</option>
+    <option value="EQUADOR">Equador</option>
+    <option value="URUGUAI">Uruguai</option>
+    <option value="PERU">Peru</option>
+    <option value="VENEZUELA">Venezuela</option>
+</select><br>
+Data de nascimento: <input type="text" name="sndtnascimento" placeholder="" value=""><br>
+Sexo: <select size="1" name="snsexo">
+    <option value="" selected>Selecionar</option>
+    <option value="F">Feminino</option>
+    <option value="M">Masculino</option>
+</select><br>
+DDD (celular): <input type="text" name="sncelularddd" placeholder="00" value=""><br>
+DDI (celular): <input type="text" name="sncelularddi" placeholder="55" value=""><br>
+Número Celular: <input type="text" name="sncelularnum" placeholder="900000000" value=""><br>
+DDD (telefone): <input type="text" name="sntelefoneddd" placeholder="00" value=""><br>
+DDI (telefone): <input type="text" name="sntelefoneddi" placeholder="55" value=""><br>
+Número Telefone: <input type="text" name="sntelefonenum" placeholder="00000000" value=""><br>
+Endereço: <input type="text" name="snresidencia" placeholder="" value=""><br>
+País: <select size="1" name="snpaisres">
+    <option value="ARGENTINA">Argentina</option>
+    <option value="BRASIL" selected>Brasil</option>
+    <option value="BOLIVIA">Bolívia</option>
+    <option value="CHILE">Chile</option>
+    <option value="COLOMBIA">Colômbia</option>
+    <option value="EQUADOR">Equador</option>
+    <option value="URUGUAI">Uruguai</option>
+    <option value="PERU">Peru</option>
+    <option value="VENEZUELA">Venezuela</option>
+</select><br>
+Estado: <input type="text" name="snestadores" placeholder="" value="SÃO PAULO"><br>
+Cidade: <input type="text" name="sncidaderes" placeholder="" value="SÃO PAULO"><br>
+País: <input type="text" name="bgstdscpais" placeholder="" value="BRASIL"><br>
+País: <input type="text" name="bgstdscpaisdest" placeholder="" value="BRASIL"><br>
+Estado: <input type="text" name="bgstdscestado" placeholder="" value="SÃO PAULO"><br>
+Estado: <input type="text" name="bgstdscestadodest" placeholder="" value="SÃO PAULO"><br>
+Cidade: <input type="text" name="bgstdsccidade" placeholder="" value="SÃO PAULO"><br>
+Cidade: <input type="text" name="bgstdsccidadedest" placeholder="" value="SÃO PAULO"><br>
+Motivo Viagem: <input type="text" name="snmotvia" placeholder="" value="01"><br>
+Meio de Transporte: <input type="text" name="sntiptran" placeholder="" value="02"><br>
+Previsão de Entrada: <input type="text" name="snprevent" placeholder="" value=""><br>
+Previsão de Saída: <input type="text" name="snprevsai" placeholder="" value=""><br>
+Observações: <input type="text" name="snobs" placeholder="" value=""><br>
+Número de hóspedes: <input type="text" name="snnumhosp" placeholder="" value="1"><br>
+Número da unidade habitacional: <input type="text" name="snuhnum" placeholder="" value="31"><br>
+Código IBGE: <input type="text" name="snidcidadeibgeres" placeholder="" value=""><br>
+Código IBGE: <input type="text" name="snidcidadeibge" placeholder="" value=""><br>
+Código IBGE: <input type="text" name="snidcidadeibgedest" placeholder="" value=""><br>
+<input class="button" type="submit" name="enviarFnrh" value="Enviar">
+</form>
 
 
 <?php
+
+if ( isset( $_POST[ "enviarFnrh" ] ) ) {
+    $snnumcpf = $_POST[ "snnumcpf" ];
+    $sntipdoc = $_POST[ "sntipdoc" ];
+    $snnumdoc = $_POST[ "snnumdoc" ];
+    $snorgexp = $_POST[ "snorgexp" ];
+    $snnomecompleto = $_POST[ "snnomecompleto" ];
+    $snemail = $_POST[ "snemail" ];
+    $snocupacao = $_POST[ "snocupacao" ];
+    $snnacionalidade = $_POST[ "snnacionalidade" ];
+    $sndtnascimento = $_POST[ "sndtnascimento" ];
+    $snsexo = $_POST[ "snsexo" ];
+    $sncelularddd = $_POST[ "sncelularddd" ];
+    $sncelularddi = $_POST[ "sncelularddi" ];
+    $sncelularnum = $_POST[ "sncelularnum" ];
+    $sntelefoneddd = $_POST[ "sntelefoneddd" ];
+    $sntelefoneddi = $_POST[ "sntelefoneddi" ];
+    $sntelefonenum = $_POST[ "sntelefonenum" ];
+    $snresidencia = $_POST[ "snresidencia" ];
+    $snpaisres = $_POST[ "snpaisres" ];
+    $snestadores = $_POST[ "snestadores" ];
+    $sncidaderes = $_POST[ "sncidaderes" ];
+    $bgstdscpais = $_POST[ "bgstdscpais" ];
+    $bgstdscpaisdest = $_POST[ "bgstdscpaisdest" ];
+    $bgstdscestado = $_POST[ "bgstdscestado" ];
+    $bgstdscestadodest = $_POST[ "bgstdscestadodest" ];
+    $bgstdscestadodest = $_POST[ "bgstdscestadodest" ];
+    $bgstdsccidade = $_POST[ "bgstdsccidade" ];
+    $bgstdsccidadedest = $_POST[ "bgstdsccidadedest" ];
+    $snmotvia = $_POST[ "snmotvia" ];
+    $sntiptran = $_POST[ "sntiptran" ];
+    $snprevent = $_POST[ "snprevent" ];
+    $snprevsai = $_POST[ "snprevsai" ];
+    $snobs = $_POST[ "snobs" ];
+    $snnumhosp = $_POST[ "snnumhosp" ];
+    $snuhnum = $_POST[ "snuhnum" ];
+    $snidcidadeibgeres = $_POST[ "snidcidadeibgeres" ];
+    $snidcidadeibge = $_POST[ "snidcidadeibge" ];
+    $snidcidadeibgedest = $_POST[ "snidcidadeibgedest" ];
+    
 $client = new SoapClient('http://fnrhws.hospedagem.turismo.gov.br/FnrhWs/FnrhWs?wsdl');
 
-$function = 'fnrhInserir';
-
 $arguments = array('fnrhInserir' => array(
-    'chaveAcesso' => '00000000-0000-0000-0000-00000000000',
+    'chaveAcesso' => 'NÚMERO DA CHAVE DE ACESSO'
     'fnrh' => array(
-        'snnumcpf' => '', // Cadastro de pessoa física com máscara. Ex.: 000.000.000-00
-        'sntipdoc' => '', // Tipo de documento do hóspede
-        'snnumdoc' => '', // Número do documento do hóspede
-        'snorgexp' => '', // Órgão expedidor do documento do hóspede
-        'snnomecompleto' => '', // Nome completo do hóspede
-        'snemail' => '', // E-mail do hóspede, apenas uma ocorrência.
-        'snocupacao' => '', // Profissão do hóspede
-        'snnacionalidade' => '', // Nacionalidade do hóspede.
-        'sndtnascimento' => '', // Data de nascimento do hóspede, padrão americano. Ex.: yyyy-MM-dd
-        'snsexo' => '', // Sexo do hóspede, campo obrigatório de preenchimento “M” ou “F”
-        'sncelularddd' => '', // DDD do celular do hóspede. Somente números.
-        'sncelularddi' => '', // DDI do celular do hóspede. Somente números.
-        'sncelularnum' => '', // Número do celular do hóspede. Somente números.
-        'sntelefoneddd' => '', // DDD do telefone do hóspede. Somente números.
-        'sntelefoneddi' => '', // DDI do telefone do hóspede. Somente números.
-        'sntelefonenum' => '', // Número do telefone do hóspede. Somente números.
-        'snresidencia' => '', // Residência permanente do hóspede.
-        'snpaisres' => '', // País de residência do hóspede.
-        'snestadores' => '', // Estado de residência do hóspede.
-        'sncidaderes' => '', // Cidade de residência do hóspede.
-        'bgstdscpais' => '', // País de última procedência do hóspede.
-        'bgstdscpaisdest' => '', // País de próximo destino do hóspede.
-        'bgstdscestado' => '', // Estado de última procedência do hóspede.
-        'bgstdscestadodest' => '', // Estado de próximo destino do hóspede.
-        'bgstdsccidade' => '', // Cidade de última procedência do hóspede.
-        'bgstdsccidadedest' => '', // Cidade de próximo destino do hóspede.
-        'snmotvia' => '', // Motivo da viagem do hóspede.
-        'sntiptran' => '', // Principal meio de transporte utilizado para se chegar ao destino.
-        'snprevent' => '', // Previsão de entrada do hóspede no meio de hospedagem, padrão americano. Ex.: yyyy-MM-ddTHH:mm:ss
-        'snprevsai' => '', // Previsão de saída do hóspede no meio de hospedagem, padrão americano. Ex.: yyyy-MM-ddTHH:mm:ss
-        'snobs' => '', // Observações da FNRH.
-        'snnumhosp' => '', // Número de hóspedes na unidade habitacional (UH).
-        'snuhnum' => '', // Número da unidade habitacional (UH).
-        'snidcidadeibgeres' => '', // Código do IBGE da cidade de residência do hóspede.
-        'snidcidadeibge' => '', // Código do IBGE da cidade de última procedência do hóspede.
-        'snidcidadeibgedest' => '', // Código do IBGE da cidade de próximo destino do hóspede.
+        'snnumcpf' => $snnumcpf,
+        'sntipdoc' => $sntipdoc,
+        'snnumdoc' => $snnumdoc,
+        'snorgexp' => $snorgexp,
+        'snnomecompleto' => $snnomecompleto,
+        'snemail' => $snemail,
+        'snocupacao' => $snocupacao,
+        'snnacionalidade' => $snnacionalidade,
+        'sndtnascimento' => $sndtnascimento,
+        'snsexo' => $snsexo,
+        'sncelularddd' => $sncelularddd,
+        'sncelularddi' => $sncelularddi,
+        'sncelularnum' => $sncelularnum,
+        'sntelefoneddd' => $sntelefoneddd,
+        'sntelefoneddi' => $sntelefoneddi,
+        'sntelefonenum' => $sntelefonenum,
+        'snresidencia' => $snresidencia,
+        'snpaisres' => $snpaisres,
+        'snestadores' => $snestadores,
+        'sncidaderes' => $sncidaderes,
+        'bgstdscpais' => $bgstdscpais,
+        'bgstdscpaisdest' => $bgstdscpaisdest,
+        'bgstdscestado' => $bgstdscestado,
+        'bgstdscestadodest' => $bgstdscestadodest,
+        'bgstdsccidade' => $bgstdsccidade,
+        'bgstdsccidadedest' => $bgstdsccidadedest,
+        'snmotvia' => $snmotvia,
+        'sntiptran' => $sntiptran,
+        'snprevent' => $snprevent,
+        'snprevsai' => $snprevsai,
+        'snobs' => $snobs,
+        'snnumhosp' => $snnumhosp,
+        'snuhnum' => $snuhnum,
+        'snidcidadeibgeres' => $snidcidadeibgeres,
+        'snidcidadeibge' => $snidcidadeibge,
+        'snidcidadeibgedest' => $snidcidadeibgedest,
 )));
 
-$options = array('location' => 'http://www.webservicex.net/ConvertTemperature.asmx');
+$result = $client->__soapCall('fnrhInserir', $arguments);
 
-$result = $client->__soapCall($function, $arguments, $options);
+$codReserva = $result->return;
 
-echo 'Response: ';
-print_r($result);
-?>
+echo 'Obrigado ' . $snnomecompleto . ' por seu cadastro de chekin.<br>';
+echo 'O número da sua reserva é ' . substr($codReserva, -13, 12) . '.<br>';
 
-
-<!-- DAQUI PRA BAIXO É SÓ TESTE QUE NÃO MEXI -->
-
-<html>
-<body>    
-<form action="" method="post">
-Chave de Acesso: <input type="text" name="chaveAcesso"/><br>
-fnrh<br>
-CPF: <input type="text" name="snnumcpf"/><br>
-Tipo de Documento: <input type="text" name="sntipdoc"/><br>
-Número do Documento: <input type="text" name="snnumdoc"/><br>
-Órgão Expedidor: <input type="text" name="snorgexp"/><br>
-Nome Completo: <input type="text" name="snnomecompleto"/><br>
-Email: <input type="text" name="snemail"/><br>
-Profissão: <input type="text" name="snocupacao"/><br>
-Nacionalidade: <input type="text" name="snnacionalidade"/><br>
-Data de Nascimento (yyyy-MM-dd): <input type="text" name="sndtnascimento"/><br>
-Sexo (M ou F): <input type="text" name="snsexo"/><br>
-<input type="submit" name="SubmitButton" value="Enviar"/>
-<?php echo $message; ?>
-</form>    
-</body>
-</html>
-
-<?php
-if(isset($_POST['SubmitButton'])){
-    $post = [
-        'chaveAcesso' => $_POST['tokenPagador'],
-        'snnumcpf' => $_POST['idRecebedor'],
-        'sntipdoc' => $_POST['valorCentavos'],
-    ];
-
-    /*
-    $ch = curl_init('https://api.iugu.com/v1/transfers');
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-    
-    $response = curl_exec($ch);
-    
-    curl_close($ch);
-    $message = print_r($response);
-    */
 }
 ?>
