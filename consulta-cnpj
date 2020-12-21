@@ -1,0 +1,35 @@
+<h1>Consulta CNPJ</h1>
+<!-- Documentação: -->
+
+<form method="post">
+CNPJ (somente números): <input type="text" name="cnpj"> <input class="button" type="submit" name="consultarCnpj" value="Consultar">
+</form>
+
+<?php
+
+if ( isset( $_POST[ "consultarCnpj" ] ) ) {
+    $cnpj = $_POST[ "cnpj" ];
+    $urlFinal = 'https://www.receitaws.com.br/v1/cnpj/' . $cnpj;
+    
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $urlFinal);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    
+    $result = curl_exec($ch);
+    if (curl_errno($ch)) {
+        echo 'Error:' . curl_error($ch);
+    }
+    curl_close($ch);
+    
+    $json = json_decode($result, true);
+    echo "<br><b>CNPJ </b>".$json['cnpj']."<br>";
+    echo "<b>Nome Fantasia </b>".$json['fantasia']."<br>";
+    echo "<b>Razão Social </b>".$json['nome']."<br>";
+    echo "<b>CEP </b>".$json['cep']."<br>";
+    echo "<b>Endereço </b>".$json['logradouro']."<br>";
+    echo "<b>Número </b>".$json['numero']."<br>";
+    echo "<b>Complemento </b>".$json['complemento']."<br>";
+    echo "<b>Email </b>".$json['email']."<br>";
+    echo "<b>Telefone </b>".$json['telefone']."<br>";
+}
+?>
