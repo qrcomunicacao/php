@@ -1,5 +1,6 @@
 <h1>Consulta CEP</h1>
 <!-- Documentação: https://docs.pagar.me/reference#consulta-de-cep -->
+<!-- Opção 02 - https://viacep.com.br/ -->
 
 <form method="post">
 CEP (somente números): <input type="text" name="cep"> <input class="button" type="submit" name="consultarCep" value="Consultar">
