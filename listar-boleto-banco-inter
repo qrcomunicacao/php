@@ -1,4 +1,20 @@
-<h1>Listar Boletos </h1>
+<!--
+
+CERTIFICADO
+01. Baixar OpenSSL em https://wiki.openssl.org/index.php/Binaries
+Usei o http://wiki.overbyte.eu/wiki/index.php/ICS_Download
+02. Colocar os arquivos .key e .crt na mesma pasta do openssl.exe
+03. Abrir o Prompt de Comando e usar o comando abaixo
+
+openssl x509 -inform PEM -in "Inter API_Certificado.crt" > publicchave.pem
+openssl rsa -in "Inter API_Chave.key" -text > private-chave.pem
+
+VERIFICAR COMO FUNCIONA
+converter base64 para PDF
+
+-->
+
+<h1>Listar Boletos <small>v21.12.19.23.20</small></h1>
 
 <form method="post">
 Mostrar: <select size="1" name="filtrarPor">
@@ -8,7 +24,7 @@ Mostrar: <select size="1" name="filtrarPor">
     <option value="PAGOS">Boletos pagos</option>
     <option value="TODOSBAIXADOS">Boletos baixados</option>
 </select><br>
-Ver boletos <input type="text" name="dataInicial" value="2020-01-01"> de até <input type="text" name="dataFinal" value="2020-12-31"> <small>AAAA-MM-DD</small><br>
+Ver boletos <input type="text" name="dataInicial" value="2021-01-01"> de até <input type="text" name="dataFinal" value="2021-12-31"> <small>AAAA-MM-DD</small><br>
 Ordenar boletos por: <select size="1" name="ordenarPor">
     <option value="NOSSONUMERO" selected>Nosso número (do Banco Inter)</option>
     <option value="SEUNUMERO">Seu número</option>
@@ -40,15 +56,15 @@ if ( isset( $_POST['consultarBoletos'] ) ) {
         'Content-type: application/json',
         'x-inter-conta-corrente: ' . $numConta
     );
-
+	
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
     curl_setopt($ch, CURLOPT_URL, $urlFinal);
     curl_setopt($ch, CURLOPT_PORT, $porta);
     curl_setopt($ch, CURLOPT_HEADER, 0);
-    curl_setopt($ch, CURLOPT_SSLCERT, 'publicchave.pem');
-    curl_setopt($ch, CURLOPT_SSLKEY, 'private-chave.pem');
+    curl_setopt($ch, CURLOPT_SSLCERT, 'publicchave.pem'); // arquivo tranformado de .crt para .pem
+    curl_setopt($ch, CURLOPT_SSLKEY, 'private-chave.pem'); // arquivo tranformado de .key para .pem
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
     curl_setopt($ch, CURLOPT_HTTPHEADER, $parametros);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
